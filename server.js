@@ -11,9 +11,9 @@ const server = express()
 
 
 //============ middleware ==========//
+server.use(cors()) 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({extended: false}))
-server.use(cors()) 
 //============== end =============//
 
 //============custom route============//
