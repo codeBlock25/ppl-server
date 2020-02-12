@@ -5,6 +5,20 @@ const bcryptjs = require("bcryptjs")
 const salt = bcryptjs.genSaltSync(10)
 const crypto = require("crypto")
 const policeSchema = require("../model/staff")
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true for 465, false for other ports
+  auth: {
+      username: "jamos56947@gmail.com", // generated ethereal user
+      password: "Iamjamos735" // generated ethereal password
+  }
+});
 
 
 route.post("/", async (req,res)=> {
@@ -14,6 +28,7 @@ route.post("/", async (req,res)=> {
     rank,
     email,
     phone_num,
+    avatar
   } = req.body
   let staff_level
   let ranked = rank.toLowerCase()
@@ -38,35 +53,28 @@ route.post("/", async (req,res)=> {
     password: hashedPassword,
     rank: rank,
     staff_level,
+    avatar: avatar
   })
+  
   console.log(passwordused)
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
-    auth: {
-        username: "jamos56947@gmail.com", // generated ethereal user
-        password: "Iamjamos735" // generated ethereal password
-    }
-  });
+  await newSatff.save().then(async ()=>{
+      res.status(200).json({msg: "user saved"})
+  })
+  .catch(err=>{
+      res.status(400).json({msg: "user not saved", error: err})
+  })
   try {
       let info = await transporter.sendMail({
         from: '"Amos John" <jamos56947@gmail.com>', // sender address
         to: email, // list of receivers
         subject: "App ✔", // Subject line
         text: `your password ${passwordused}`, // plain text body
-        html: "<b>Hello world?</b>" // html body
+        html: `<b>Hello world? ${passwordused}</b>` // html body
       });
       console.log(info)
   } catch (error) {
     console.log(error)
   }
-    await newSatff.save().then(async ()=>{
-        res.status(200).json({msg: "user saved"})
-    })
-    .catch(err=>{
-        res.status(400).json({msg: "user not saved", error: err})
-    })
 })
 
 module.exports = route

@@ -9,17 +9,13 @@ const port = process.env.PORT || 1020
 const server = express()
 //==============end==============//
 
-
-//============ middleware ==========//
-server.use(cors()) 
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({extended: false}))
-//============== end =============//
-
 //============custom route============//
 const customRoute = require("./customRoutes")
 //============------------============//
 
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({extended: false}))
+server.use(cors()) 
 
 mongoose.connect(dburl,{useUnifiedTopology: true, useCreateIndex: true, useNewUrlParser: true})
 .then(()=>{

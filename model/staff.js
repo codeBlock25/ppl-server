@@ -33,6 +33,10 @@ const newSchema = new schema({
     staff_level: {
         type: Number,
         required: true
+    },
+    avatar: {
+        type: Buffer,
+        required: true
     }
 })
 
