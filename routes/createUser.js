@@ -15,8 +15,8 @@ let transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-      username: "jamos56947@gmail.com", // generated ethereal user
-      password: "Iamjamos735" // generated ethereal password
+      username: process.env.MAILADDRESS, // generated ethereal user
+      password: process.env.MAILPASSWORD // generated ethereal password
   }
 });
 
@@ -65,7 +65,7 @@ route.post("/", async (req,res)=> {
   })
   try {
       let info = await transporter.sendMail({
-        from: '"Amos John" <jamos56947@gmail.com>', // sender address
+        from: '"Amos John" <${process.env.MAILADDRESS}>', // sender address
         to: email, // list of receivers
         subject: "App ✔", // Subject line
         text: `your password ${passwordused}`, // plain text body
