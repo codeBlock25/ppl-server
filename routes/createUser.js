@@ -6,19 +6,18 @@ const salt = bcryptjs.genSaltSync(10)
 const crypto = require("crypto")
 const policeSchema = require("../model/staff")
 const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
 
 
 let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp.zoho.com",
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-      username: process.env.MAILADDRESS, // generated ethereal user
-      password: process.env.MAILPASSWORD // generated ethereal password
+    user: "server@basiccompanybooks.com", // generated ethereal user
+    pass: "a20b30c40!@" // generated ethereal password
   }
 });
+
 
 
 route.post("/", async (req,res)=> {
@@ -53,28 +52,33 @@ route.post("/", async (req,res)=> {
     password: hashedPassword,
     rank: rank,
     staff_level,
-    avatar: avatar
+    avatar: {
+      data: avatar.data,
+      contentType: avatar.contentType
+    }
   })
   
   console.log(passwordused)
   await newSatff.save().then(async ()=>{
       res.status(200).json({msg: "user saved"})
+      try {
+        await transporter.sendMail({
+            from: 'server <server@basiccompanybooks.com>', // sender address
+            to: email, // list of receivers
+            subject: "details - noreply@server", // Subject line
+            text: `Your password is ${passwordused}`, // plain text body
+            html: `<h2>Your password is ${passwordused}</h2>`
+        // html body 
+          }).then((info)=>{
+            console.log("message sent")
+          })
+      } catch (error) {
+        console.log(error)
+      }
   })
   .catch(err=>{
       res.status(400).json({msg: "user not saved", error: err})
   })
-  try {
-      let info = await transporter.sendMail({
-        from: '"Amos John" <${process.env.MAILADDRESS}>', // sender address
-        to: email, // list of receivers
-        subject: "App ✔", // Subject line
-        text: `your password ${passwordused}`, // plain text body
-        html: `<b>Hello world? ${passwordused}</b>` // html body
-      });
-      console.log(info)
-  } catch (error) {
-    console.log(error)
-  }
 })
 
 module.exports = route

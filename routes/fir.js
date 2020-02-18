@@ -1,8 +1,8 @@
 const express = require("express")
 const route = express.Router()
 const firSchema = require("../model/fir")
-
-
+  
+  
 route.post("/", async (req,res)=>{
     let {
         officer_name,officer_email,
