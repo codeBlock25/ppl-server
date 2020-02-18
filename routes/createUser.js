@@ -52,10 +52,7 @@ route.post("/", async (req,res)=> {
     password: hashedPassword,
     rank: rank,
     staff_level,
-    avatar: {
-      data: avatar.data,
-      contentType: avatar.contentType
-    }
+    avatar: avatar
   })
   
   console.log(passwordused)
