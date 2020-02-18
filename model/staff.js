@@ -35,8 +35,7 @@ const newSchema = new schema({
         required: true
     },
     avatar: {
-        data: Buffer,
-        contentType: String
+        type: Butter
     }
 })
 
