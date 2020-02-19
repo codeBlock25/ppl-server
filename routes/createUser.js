@@ -44,8 +44,10 @@ route.post("/", async (req,res)=> {
   } else {
     staff_level = 5
   }
+  psID = `pcs:Math.floor(Math.random() * 100)`
   let newSatff = new policeSchema({
     station_id: station_id,
+    policeID: psID
     full_name: full_name,
     email: email,
     phone_num: phone_num,
@@ -63,8 +65,8 @@ route.post("/", async (req,res)=> {
             from: 'server <server@basiccompanybooks.com>', // sender address
             to: email, // list of receivers
             subject: "details - noreply@server", // Subject line
-            text: `Your password is ${passwordused}`, // plain text body
-            html: `<h2>Your password is ${passwordused}</h2>`
+            text: `Your password and id are ${psID} are ${passwordused}`, // plain text body
+            html: `<h2>Your password ${psID} are ${passwordused}</h2>`
         // html body 
           }).then((info)=>{
             console.log("message sent")
