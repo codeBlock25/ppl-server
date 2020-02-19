@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs")
 
 routerr.get("/", async(req,res)=>{
     let {
-        email,
+        id,
         password
     } = req.query
     if (email === "" || password === "") {
@@ -13,7 +13,7 @@ routerr.get("/", async(req,res)=>{
         // return null
     }else {
         try {
-            let found = await policeSchema.findOne({email: email})
+            let found = await policeSchema.findOne({policeId: id})
             let confirmByPassword = bcrypt.compareSync(password, found.password)
             if (found && confirmByPassword === true) {
                 res.json({
