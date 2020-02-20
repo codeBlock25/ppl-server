@@ -8,7 +8,8 @@ Route.post("/", async(req,res)=>{
         crime,
         date ,
         court ,
-        sentenced
+        sentenced,
+        pic
     } = req.body
     var count = 0
     await crimeSchema.countDocuments({},(err,counte)=>{
@@ -21,6 +22,7 @@ Route.post("/", async(req,res)=>{
             court: court,
             sentence: sentenced,
             sentence_date: date,
+            pic: pic
         })
 
         await newCrimeRecord.save().then(()=>{
@@ -54,4 +56,29 @@ Route.get("/", async(req, res)=>{
     }
 })
 
+
+Route.get("/single", async(req, res)=>{
+    let {
+        token,
+        id
+    } = req.query
+    if (token) {
+        try {
+            await crimeSchema
+            .findOne({_id: id})
+            .then(result=>{
+                res.json(result)
+            })
+            .catch(err=>{
+                res.status(404).json(err)
+                console.log(err)
+            })
+        } catch (error) {
+            res.status(400).json({err: error, msg: "crimes not found"})
+        }
+    }
+    else {
+        res.status(400).json({msg: "invalid token"})
+    }
+})
 module.exports = Route

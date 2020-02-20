@@ -27,6 +27,9 @@ const crimeSchema = new schema({
         type: Date,
         required: true
     },
+    pic: {
+        type: Buffer,
+    },
     date: {
         type: Date,
         default: Date.now()

@@ -5,12 +5,6 @@ const newSchema = new schema({
     station_id: {
         type: String,
     },
-    policeID: {
-        type: String,
-        required: true,
-        lowercase: true,
-        unique: true
-    },
     email: {
         type: String,
         required: true,
@@ -42,7 +36,6 @@ const newSchema = new schema({
     },
     avatar: {
         type: Buffer,
-        required: true
     }
 })
 

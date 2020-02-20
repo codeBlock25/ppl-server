@@ -15,12 +15,10 @@ const newFirRecord = new schema({
     },
     pertitioner_name: {
         type: String,
-        // required: true,
         lowercase: true
     },
     pertitioner_contact: {
         type: String,
-        // required: true
     },
     victim_name: {
         type: String,
