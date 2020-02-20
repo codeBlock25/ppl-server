@@ -32,11 +32,11 @@ route.post("/", async (req,res)=> {
   let staff_level
   let ranked = rank.toLowerCase()
   let ray = ranked.split(" ")
-  let marker 
+  let marker = "PS-"
   ray.forEach(element => {
-    marker = `${marker}${element.substr(0,1)}`
+      marker = `${marker}${element.substr(0,1)}`
   });
-  let ps = `${marker}${Math.floor(Math.random() * 9594)}`
+  let ps = `${marker}${Math.floor(Math.random() * 958894)}`
   let passwordused = crypto.randomBytes(6).toString('hex')
   let hashedPassword = bcryptjs.hashSync(passwordused, salt)
   if (ranked === "inspector general" || ranked === "deputy inspector-general of police" || ranked === "assistant inspector-general of police") {
