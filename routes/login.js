@@ -13,7 +13,7 @@ routerr.get("/", async(req,res)=>{
         // return null
     }else {
         try {
-            let found = await policeSchema.findOne({email: email})
+            let found = await policeSchema.findOne({office_id: email})
             let confirmByPassword = bcrypt.compareSync(password, found.password)
             if (found && confirmByPassword === true) {
                 res.json({
