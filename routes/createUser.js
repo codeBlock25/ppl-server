@@ -31,6 +31,12 @@ route.post("/", async (req,res)=> {
   } = req.body
   let staff_level
   let ranked = rank.toLowerCase()
+  let ray = ranked.split(" ")
+  let marker 
+  ray.forEach(element => {
+    marker = `${marker}${element.substr(0,1)}`
+  });
+  let ps = `${marker}${Math.floor(Math.random() * 9594)}`
   let passwordused = crypto.randomBytes(6).toString('hex')
   let hashedPassword = bcryptjs.hashSync(passwordused, salt)
   if (ranked === "inspector general" || ranked === "deputy inspector-general of police" || ranked === "assistant inspector-general of police") {
@@ -47,6 +53,7 @@ route.post("/", async (req,res)=> {
   let newSatff = new policeSchema({
     station_id: station_id,
     full_name: full_name,
+    office_id: ps,
     email: email,
     phone_num: phone_num,
     password: hashedPassword,
@@ -63,8 +70,8 @@ route.post("/", async (req,res)=> {
             from: 'server <server@basiccompanybooks.com>', // sender address
             to: email, // list of receivers
             subject: "details - noreply@server", // Subject line
-            text: `Your password is ${passwordused}`, // plain text body
-            html: `<h2>Your password is ${passwordused}</h2>`
+            text: `Your id ${ps} and password is ${passwordused}`, // plain text body
+            html: `<h2>Your id ${ps} and password is ${passwordused}</h2>`
         // html body 
           }).then((info)=>{
             console.log("message sent")

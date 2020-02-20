@@ -11,6 +11,12 @@ const newSchema = new schema({
         unique: true,
         lowercase: true 
     },
+    office_id: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
+    },
     phone_num: {
         type: Number,
         required: true,
