@@ -9,7 +9,7 @@
     "devop": "concurrently \"tsc watch\" \"nodemon .\""
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "clipboardy": "^3.0.0",
     "gridfs-stream": "^1.1.1",
     "method-override": "^3.0.0",
