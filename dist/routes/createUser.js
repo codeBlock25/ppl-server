@@ -112,6 +112,7 @@ route.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             switch (_a.label) {
                                 case 0:
                                     res.status(200).json({ msg: "user saved" });
+                                    console.log(password_used);
                                     _a.label = 1;
                                 case 1:
                                     _a.trys.push([1, 3, , 4]);
