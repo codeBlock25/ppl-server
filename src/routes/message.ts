@@ -30,6 +30,7 @@ route.get("/", async (req, res) => {
     res.status(400).json({ err: err });
   }
 });
+
 route.get("/staffs", async (_, res) => {
   var staff_name = [];
   try {

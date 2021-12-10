@@ -3,8 +3,6 @@ import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
 import policeSchema from "../model/staff";
-import notifier from "node-notifier";
-import clipboard from "clipboardy";
 
 const salt = bcryptjs.genSaltSync(10);
 const route = express.Router();
@@ -14,8 +12,8 @@ let transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    user: "server@basiccompanybooks.com", // generated ethereal user
-    pass: "a20b30c40!@", // generated ethereal password
+    user: process.env["MaIL_ADDRESS"], // generated ethereal user
+    pass: process.env["MAIL_PASSWORD"], // generated ethereal password
   },
 });
 
@@ -75,39 +73,31 @@ route.post("/", async (req, res) => {
     .then(async () => {
       res.status(200).json({ msg: "user saved" });
       try {
-        await notifier.notify(
-          {
-            title: "PPL Account Created",
-            message: `New password created for ${full_name}, which is ${password_used}}!`,
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true,
-            actions: "Copy",
-            timeout: 5000,
-          },
-          function (err, response) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            if (response === "activate") {
-              clipboard.writeSync(password_used);
-            }
-          }
-        );
         await transporter
           .sendMail({
-            from: "server <server@basiccompanybooks.com>", // sender address
+            from: `server ${process.env["MAIL_ADDRESS"]}`, // sender address
             to: email, // list of receivers
-            subject: "details - noreply@server", // Subject line
-            text: `Your id ${ps} and password is ${password_used}`, // plain text body
-            html: `<h2>Your id ${ps} and password is ${password_used}</h2>`,
+            subject: "Officer Details", // Subject line
+            html: `
+            <center>
+            <h1>Officer Details</h1>
+            <img 
+              src="data:image/jpeg;base64, ${avatar}" style="width: 200px; height: 200px, display: block; border-radius: 20px;"/>
+            <h2>Your id ${ps} and password is ${password_used}</h2>
+            <p>Full name: <b>${full_name}</b>
+            </p>
+            <p>
+            Rank: <b>${ranked}
+            </p>
+            </center>
+            `,
             // html body
           })
           .then(() => {
             console.log("message sent");
           });
       } catch (error) {
-        // TODO: handle error
+        console.error(error);
       }
     })
     .catch((err: { keyPattern: { email: any } }) => {

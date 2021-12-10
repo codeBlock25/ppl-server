@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
+var customRoute = (0, express_1.default)();
+var fir_1 = __importDefault(require("./routes/fir"));
+var cases_1 = __importDefault(require("./routes/cases"));
+var login_1 = __importDefault(require("./routes/login"));
+var createUser_1 = __importDefault(require("./routes/createUser"));
+var message_1 = __importDefault(require("./routes/message"));
+var crime_1 = __importDefault(require("./routes/crime"));
+customRoute.use("/login", login_1.default);
+customRoute.use("/fir", fir_1.default);
+customRoute.use("/cases", cases_1.default);
+customRoute.use("/add", createUser_1.default);
+customRoute.use("/message", message_1.default);
+customRoute.use("/crime", crime_1.default);
+exports.default = customRoute;
